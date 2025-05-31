@@ -51,15 +51,15 @@ export default function FavoriteScreen() {
     <>
       {/* Heading */}
       <View testID="FavoriteRecipes">
+           
         <Text
           style={{ fontSize: hp(3.8), marginTop: hp(4), marginLeft: 20 }}
           className="font-semibold text-neutral-600"
         >
           My Favorite Recipes
         </Text>
-      </View>
-    
-      <TouchableOpacity
+
+        <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={{
           backgroundColor: "#2563EB",
@@ -71,8 +71,33 @@ export default function FavoriteScreen() {
           marginLeft: 20,
         }}
       >
-        <Text style={{ color: "#fff" }}>Go back</Text>
+            <Text style={{ color: "#fff" }}>Back</Text>
       </TouchableOpacity>
+
+        <FlatList
+            data={favoriteRecipesList}
+            contentContainerStyle={styles.listContentContainer}
+            keyExtractor={(item) => item.idFood} // Обновите ключ в соответствии с вашими данными статьи
+            renderItem={({ item }) => (
+            <TouchableOpacity
+                style={styles.cardContainer}
+                onPress={() => navigation.navigate("RecipeDetail", item)} // Переход на экран деталей статьи
+            >
+                <Image
+                    source={{ uri: item.recipeImage }} // Предполагается, что у ваших статей есть поле thumbnail
+                    style={styles.recipeImage}
+                />
+                <Text style={styles.recipeTitle}>
+                {item.recipeName.length > 20
+                    ? `${item.recipeName.slice(0, 20)}...`
+                    : item.recipeName}
+                </Text>
+            </TouchableOpacity>
+            )}
+        />
+      </View>
+    
+      
     
     </>
   );

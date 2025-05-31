@@ -8,7 +8,17 @@ const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
-   
+        toggleFavorite: (state, action) => {
+            const recipe = action.payload; // Ожидаем весь объект статьи
+            const existingIndex = state.favoriterecipes.findIndex(
+                (item) => item.id === recipe.idFood // Предполагаем, что у статей есть свойство 'id'
+            );
+            if (existingIndex >= 0) {
+                state.favoriterecipes.splice(existingIndex, 1); // Удалить из избранного
+            } else {
+                state.favoriterecipes.push(recipe); // Добавить в избранное
+            }
+    },
   },
 });
 
